@@ -1,0 +1,13 @@
+---
+applications:
+  - name: sentiment-analyzer-9000
+    memory: 1G
+    buildpack: nodejs_buildpack
+    command: node server/app.js
+    path: dist
+#services:
+env:
+    node_env: production
+    #twitterKey: your-twitter-base64Credentials
+    #accessKeyId: your-aws-accessID
+    #secretAccessKey: your-aws-secret
