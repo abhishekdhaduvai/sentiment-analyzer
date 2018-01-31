@@ -47,7 +47,7 @@ axios.post('https://api.twitter.com/oauth2/token?grant_type=client_credentials',
   twitter_token = res.data.access_token;
 })
 .catch(err => {
-  console.log('ERROR!!!!')
+  console.log('Error getting Twitter Token')
 });
 
 app.post('/analyzeSentiment', function(req, res){
@@ -61,7 +61,7 @@ app.post('/analyzeSentiment', function(req, res){
   .then(response => {
     const tweets = response.data.statuses;
     if(tweets.length === 0){
-      res.status(400).send('error')
+      res.status(400).send('No Tweets for found for that phrase')
     }
     else {
       var count = 0;
@@ -70,8 +70,8 @@ app.post('/analyzeSentiment', function(req, res){
 
         tweets.forEach(tweet => {
           calculateSentiment(tweet.text, (result) => {
-            if(result === 'error'){
-              reject('error');
+            if(result === 'error in detectSentiment'){
+              reject('There was a problem analyzing the tweets. Try reloading the page.');
             }
             else{
               count++;
@@ -91,11 +91,12 @@ app.post('/analyzeSentiment', function(req, res){
       res.send(sentiment)
     })
     .catch(err => {
-      res.send(err)
+      res.status(400).send(err)
     })
   })
   .catch(err => {
-    res.send('error')
+    console.log('Error getting Tweets')
+    res.status(400).send('Error getting Tweets. Try reloading the page')
   })
 })
 
@@ -107,8 +108,7 @@ calculateSentiment = (query, getSentiment) => {
   comprehend.detectSentiment(params, function(err, data) {
     if(err){
       console.log('Error in detectSentiment()')
-      console.log(err)
-      getSentiment('error');
+      getSentiment('error in detectSentiment');
     }
     else{
       getSentiment(data);

@@ -21,16 +21,11 @@ class Dashboard extends React.Component {
     loadingText: 'Analyzing Tweets',
     open: false,
     anchorEl: undefined,
+    errorMessage: ''
   }
 
   updateSearchText = (value) => {
     this.setState({searchText: value})
-  }
-
-  reducer = (acc, curr, type) => {
-    if(acc.Sentiment === type){
-      acc + curr;
-    }
   }
 
   showNeutralData = (element) => {
@@ -82,13 +77,14 @@ class Dashboard extends React.Component {
     .catch(err => {
       this.setState({
         loading: false, 
-        error: true
+        error: true,
+        errorMessage: err.response.data
       })
     })
   }
 
   render() {
-    const { searchText, loading, loadingText, error } = this.state;
+    const { searchText, loading, loadingText, error, errorMessage } = this.state;
     return (
       <div>
         <section style={{padding: '1em', background: '#f7f7f7'}}>
@@ -98,7 +94,7 @@ class Dashboard extends React.Component {
               type='important'
               action='acknowledge'
               message-title='Oops!'
-              message='There was an error while getting the data'
+              message={errorMessage}
               auto-dismiss='0'>
             </px-alert-message>
           }
