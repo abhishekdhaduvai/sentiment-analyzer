@@ -91,7 +91,8 @@ class Dashboard extends React.Component {
           {error && 
             <px-alert-message
               visible
-              type='important'
+              hide-severity
+              type='warning'
               action='acknowledge'
               message-title='Oops!'
               message={errorMessage}
