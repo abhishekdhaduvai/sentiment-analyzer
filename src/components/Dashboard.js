@@ -85,6 +85,7 @@ class Dashboard extends React.Component {
 
   render() {
     const { searchText, loading, loadingText, error, errorMessage } = this.state;
+    console.log(this.props)
     return (
       <div>
         <section style={{padding: '1em', background: '#f7f7f7'}}>
@@ -100,6 +101,7 @@ class Dashboard extends React.Component {
             </px-alert-message>
           }
           <div style={{marginTop: '2em'}}>
+            <KeyValue value={`Hello ${this.props.userinfo.first_name}`} size='delta'/><br />
             <KeyValue value='Search Twitter' size='gamma'/>
           </div>
 
